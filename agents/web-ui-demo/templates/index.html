@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Chat Interface</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .chat-container {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+        .agent-message {
+            background-color: #e3f2fd;
+            margin-right: auto;
+        }
+        .user-message {
+            background-color: #f5f5f5;
+            margin-left: auto;
+        }
+        .system-message {
+            background-color: #fff3e0;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1976d2;
+        }
+        .message-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .controls button {
+            background-color: #4caf50;
+        }
+        .controls button.terminate {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Agent Chat Interface</h1>
+        <div class="controls">
+            <button onclick="requestReasoning()">Request Reasoning</button>
+            <button class="terminate" onclick="terminateChat()">Terminate Chat</button>
+        </div>
+        <div class="chat-container" id="chatContainer"></div>
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+
+        socket.on('connect', () => {
+            addSystemMessage('Connected to chat server');
+        });
+
+        socket.on('agent_message', (data) => {
+            addMessage(data.role, data.content);
+        });
+
+        socket.on('system_message', (data) => {
+            addSystemMessage(data.content);
+        });
+
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role === 'User' ? 'user-message' : 'agent-message'}`;
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.textContent = role;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addSystemMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message system-message';
+            messageDiv.textContent = content;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                socket.emit('user_message', { message });
+                messageInput.value = '';
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function requestReasoning() {
+            socket.emit('user_message', { message: 'explain_reasoning' });
+        }
+
+        function terminateChat() {
+            socket.emit('user_message', { message: 'terminate' });
+        }
+    </script>
+</body>
+</html> 
