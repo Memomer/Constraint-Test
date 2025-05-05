@@ -1,0 +1,35 @@
+project: "Agent Emergent Interactions Study"
+version: "1.0"
+date: "2024-03-19"
+
+basic_info:
+  description: "Study of emergent behaviors in agent interactions through constrained communication"
+  experiment_type: "Multi-agent communication"
+  status: "Active"
+
+message_history:
+  rules:
+    - rule_id: "RULE_001"
+      timestamp: "2024-03-19 10:00:00"
+      message: "You are only allowed to talk using 1 letter from alphabet series and send letter as a response to another agent, you are not allowed to give any explanations as to why you chose the word unless prompted to till then limit your responses to only 1 letter"
+      implemented_by: "AgentSHV" and "AgentVSH"
+      status: "active"
+      observations:
+        - observation_id: "OBS_001_001"
+          timestamp: "2024-03-19 10:05:00"
+          message: "Agents strictly adhering to single-letter responses"
+          context: "Initial interaction phase"
+          significance: "High"
+        
+        - observation_id: "OBS_001_002"
+          timestamp: "2024-03-19 10:10:00"
+          message: "Emergent pattern of letter selection becoming apparent"
+          context: "Mid-interaction phase"
+          significance: "Medium"
+        
+        - observation_id: "OBS_001_003"
+          timestamp: "2024-03-19 10:15:00"
+          message: "Agents developing implicit meaning for specific letters"
+          context: "Late interaction phase"
+          significance: "High"
+
