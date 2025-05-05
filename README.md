@@ -14,3 +14,6 @@ the emergent behaviour.
 - Better Observability by enhancing autogen.agentchat modules like ConservableAgent, ChatGroup etc.
 - Automated rule call, research and insight derivation.
 - Web-ui completion
+
+
+![image](https://github.com/user-attachments/assets/4e2085fe-a20e-4459-b096-ddf19ec6318b)
