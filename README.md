@@ -1,2 +1,2 @@
 # SophAI-Emergence-Phase
-Testing emergence in by constraining LLM's intelligence
+Testing emergence in LLM's by constraining its intelligence
