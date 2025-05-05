@@ -17,7 +17,7 @@ message_queue = queue.Queue()
 config_list = [
     {
         "model": "gpt-4o-mini",
-        "api_key": "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",
+        "api_key": "YOUR_API_KEY",
     }
 ]
 
