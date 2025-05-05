@@ -16,4 +16,4 @@ the emergent behaviour.
 - Web-ui completion
 
 
-![image](https://github.com/user-attachments/assets/4e2085fe-a20e-4459-b096-ddf19ec6318b)
+<img>![image](https://github.com/user-attachments/assets/4e2085fe-a20e-4459-b096-ddf19ec6318b)</img>
